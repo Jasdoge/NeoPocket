@@ -1,0 +1,3 @@
+MiniPocket is a version that only drives a single LED channel through an N-FET.
+It uses an attiny402
+Charge stat on shows red pulsating when charging, otherwise turns off.
