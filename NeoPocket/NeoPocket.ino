@@ -22,7 +22,7 @@
 #define ON_DUR (Configuration::KEEPALIVE_DURATION+Configuration::FADE_TIME)
 
 #define overrideError
-#include <Shibetek-KXTJ3.h>
+#include <KXTJ3-Min.h>
 
 bool wokeByTimer = false;		// Tracks if it woke by timer. Used for reading battery charge status
 

@@ -1,7 +1,7 @@
 #include "_Config.h"
 #include <avr/sleep.h>
 #define overrideError
-#include <Shibetek-KXTJ3.h>
+#include <KXTJ3-Min.h>
 
 // Variables
 uint32_t wake = 0;				// Keepalive timer
