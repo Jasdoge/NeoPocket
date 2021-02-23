@@ -11,7 +11,7 @@
 		- Rest default
 
 */
-
+// #define DEBUG_IGNORE_BATTERY
 
 #include <tinyNeoPixel_Static.h>
 #include <avr/sleep.h>
@@ -117,6 +117,7 @@ void sleep(){
 	}
 
 	// We're either charging or woke by a shake. In either case handle the sensor, otherwise it gets borked when you unplug the charger
+	Serial.println("Woke up");
 
 	// woek up
 	detachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT));
@@ -239,11 +240,11 @@ void setup(){
 	Serial.println("Starting up");
 
 	Animator::setPixels(5);
-	delay(200);
+	delay(400);
 	Animator::setPixels(0,5);
-	delay(200);
+	delay(400);
 	Animator::setPixels(0,0,5);
-	delay(200);
+	delay(400);
 	Animator::setPixels();
 	
 	

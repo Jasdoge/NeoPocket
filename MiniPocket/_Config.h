@@ -1,8 +1,8 @@
 #ifndef __neoPocketConf
 #define __neoPocketConf
 
-const uint32_t KEEPALIVE_DURATION = 30000; //150000;	// Use ON_DUR
-const uint32_t FADE_TIME = 30000;			// This is appended to KEEPALIVE_DURATION
+const uint32_t KEEPALIVE_DURATION = 10000; //150000;	// Use ON_DUR
+const uint32_t FADE_TIME = 10000;			// This is appended to KEEPALIVE_DURATION
 #define ON_DUR (KEEPALIVE_DURATION+FADE_TIME)
 
 const uint16_t MAX_BRIGHTNESS = 255;

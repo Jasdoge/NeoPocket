@@ -1,6 +1,8 @@
 #include <tinyNeoPixel_Static.h>
-#include "_Config.h"
-#include "Animations.h"
+#include "Animator.h"
+#include "_Configuration.h"
+
+
 void reset(){
 	_PROTECTED_WRITE(RSTCTRL.SWRR,1);
 }
@@ -15,9 +17,9 @@ void setup(){
 	digitalWrite(PIN_BIGPP, HIGH);	// It's actually flipped by an N-FET
 	pinMode(PIN_NEO_DTA, OUTPUT);
 
-	npAnim::onToggle(true);
+	Animator::onToggle(true);
 	delay(10);
-	npAnim::setPixels(10,0,0);
+	Animator::setPixels(10,0,0);
 	delay(100);
 	
 	Serial.println("IT BEGINS");
@@ -31,7 +33,7 @@ void loop(){
 	if( ++step > 3 )
 		step = 0;
 
-	npAnim::setPixels(
+	Animator::setPixels(
 		step == 0 ? 10 : 0,
 		step == 1 ? 10 : 0,
 		step == 2 ? 10 : 0
