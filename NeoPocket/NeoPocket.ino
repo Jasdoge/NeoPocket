@@ -21,6 +21,7 @@
 
 #define ON_DUR (Configuration::KEEPALIVE_DURATION+Configuration::FADE_TIME)
 
+
 #define overrideError
 #include <KXTJ3-Min.h>
 
@@ -140,12 +141,15 @@ void checkCharging( bool force ){
 	
 	last_charge_check = ms;
 
-	 
+	const bool pre = charging;
 	charging_done = digitalRead(PIN_CHRG_STAT);		// goes LOW when charging
 	
 	// If no charger is plugged in, both these will be HIGH, otherwise one at a time will be low
 	charging = !charging_done || !digitalRead(PIN_CHRG_DET);			// goes LOW when battery is fully charged
 	
+	// Reset on charge finish to fix an issue with the cheap accelerometer
+	if( !charging && pre )
+		reset();
 
 	#endif
 
@@ -187,11 +191,12 @@ void setup(){
 
 	bool on = false;
 	/* Initialize RTC: */
-	while (RTC.STATUS > 0){
+	while( RTC.STATUS > 0 ){
 		                                   /* Wait for all register to be synchronized */
 		delay(100);
-		Animator::setPixels(0,0,(on ? 20 : 5));
+		Animator::setPixels(0,0,(on ? 20 : 1));
 		on = !on;
+		
 	}
 
 	RTC.CLKSEL = RTC_CLKSEL_INT32K_gc;    /* 32.768kHz Internal Ultra-Low-Power Oscillator (OSCULP32K) */
@@ -222,10 +227,6 @@ void setup(){
 
 	Serial.println("Accelerometer found!");
 
-	Animator::setPixels(10,0,10);
-	delay(50);
-
-	Serial.println("Setting interrupt");
 	// sensitivity, duration to trigger, duration to reset
 	if( !Accelerometer::setInterrupt( 40, 10, 255 ) ){
 
@@ -240,16 +241,16 @@ void setup(){
 	Serial.println("Starting up");
 
 	Animator::setPixels(5);
-	delay(400);
+	delay(100);
 	Animator::setPixels(0,5);
-	delay(400);
+	delay(100);
 	Animator::setPixels(0,0,5);
-	delay(400);
+	delay(100);
 	Animator::setPixels();
 	
 	
-	digitalWrite(PIN_BOOT_LED, HIGH);
-	delay(1000);
+	//digitalWrite(PIN_BOOT_LED, HIGH);
+	//delay(1000);
 	digitalWrite(PIN_BOOT_LED, LOW);
 
 	Configuration::onSetup();
