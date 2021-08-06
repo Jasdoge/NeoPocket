@@ -137,6 +137,10 @@ namespace Animator{
 		uint8_t indexB = (NUM_PIXELS-index-1)*3;
 		index *= 3;
 
+		r = map(r, 0,255, 0,maxBrightness);
+		g = map(g, 0,255, 0,maxBrightness);
+		b = map(b, 0,255, 0,maxBrightness);
+
 		if( side & 1 ){
 			pixelBuffer[index] = g;
 			pixelBuffer[index+1] = r;
@@ -241,7 +245,7 @@ namespace Animator{
 				0.05 +
 				(sin(perc*PI*2)/2 + 0.5) * 0.2+	// 0->0.2
 				flashAdd * 0.75					// 0->0.75
-			)*fadePerc*maxBrightness;
+			)*fadePerc*255;
 
 			g = out*maxGreen;
 			b = out*maxBlue;
@@ -279,7 +283,7 @@ namespace Animator{
 
 			float out = (
 				0.05 + s
-			)*fadePerc*maxBrightness;
+			)*fadePerc*255;
 
 			out = min(out, 255);
 			g = out*maxGreen;
@@ -368,7 +372,7 @@ namespace Animator{
 
 			float out = (
 				0.05 + s
-			)*fadePerc*maxBrightness;
+			)*fadePerc*255;
 
 			float sparklePerc = 0;
 			// There's a sparkle here
@@ -468,13 +472,13 @@ namespace Animator{
 
 			}
 
+			
 
+			uint8_t out = 255*(globalBrightness*sineBrightness+flashAdd*3);
 
-			uint8_t out = maxBrightness*(globalBrightness*sineBrightness+flashAdd*3);
-
-			g = min(maxBrightness, out*maxGreen);
-			b = min(maxBrightness, out*maxBlue);
-			r = min(maxBrightness, out*maxRed);
+			g = min(255, out*maxGreen);
+			b = min(255, out*maxBlue);
+			r = min(255, out*maxRed);
 
 
 			setLED(i, r, g, b);

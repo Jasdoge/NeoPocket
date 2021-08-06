@@ -45,9 +45,9 @@ namespace Configuration{
 		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
 		//Animator::animWave();
 		//Animator::animRainbowFlat();
-		//Animator::animRainbowWave();
+		Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
-		Animator::animFire();
+		//Animator::animFire();
 
 	}
 
@@ -91,10 +91,11 @@ namespace Configuration{
 			mode = 0;
 		
 		// In our case, we have 3 brightness modes plus one that's custom
-		Animator::setMaxBrightness(50);
-		if( mode == 1 )
+		if( mode == 0 )
+			Animator::setMaxBrightness(50);
+		else if( mode == 1 )
 			Animator::setMaxBrightness(128);
-		else if( mode == 2 )
+		else
 			Animator::setMaxBrightness(255);
 
 	}

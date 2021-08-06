@@ -23,7 +23,7 @@
 
 
 #define overrideError
-#include <KXTJ3-Min.h>
+#include "KXTJ3-Min.h"
 
 bool wokeByTimer = false;		// Tracks if it woke by timer. Used for reading battery charge status
 
