@@ -100,6 +100,11 @@ namespace Configuration{
 
 	}
 
+
+	void onChargeStart(){
+		Animator::setMaxBrightness(255);
+	}
+
 	// Replaces onFrame while a charger is plugged in
 	void onChargeFrame( bool fullyCharged ){
 

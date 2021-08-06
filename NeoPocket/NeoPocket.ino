@@ -150,6 +150,8 @@ void checkCharging( bool force ){
 	// Reset on charge finish to fix an issue with the cheap accelerometer
 	if( !charging && pre )
 		reset();
+	if( charging && !pre )
+		Configuration::onChargeStart();
 
 	#endif
 
