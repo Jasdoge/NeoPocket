@@ -11,6 +11,10 @@ bool wokeByTimer = false;		// Tracks if it woke by timer. Used for reading batte
 uint32_t last_charge_check = 0;	// Limits how often to read the battery
 bool sleepOnLoop = false;		// Used to prevent recursion
 
+void reset(){
+	_PROTECTED_WRITE(RSTCTRL.SWRR,1);
+}
+
 // Woke due to pin interrupt
 ISR(PORTA_PORT_vect){
 	uint8_t flags=PORTA.INTFLAGS;
@@ -93,7 +97,11 @@ void checkCharging( bool force ){
 	
 	last_charge_check = ms;
 
+	const bool pre = charging;
 	charging = !digitalRead(PIN_CHARGE_DET);
+
+	if( pre && !charging )
+		reset();
 
 	#endif
 
@@ -161,7 +169,7 @@ void setup(){
 	}
 	
 	
-	toggle();
+	toggle(true);
 
 
 
