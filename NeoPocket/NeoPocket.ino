@@ -3,6 +3,7 @@
 	Todo:
 	- HW update is needed to get the charge value
 	
+	Attiny1626, I think
 
 	- Programmer settings:
 		- 20mhz clock

@@ -198,7 +198,7 @@ namespace Accelerometer{
 		
 
 		const uint8_t en = 0b00100000;
-		const uint8_t pulse = 0b00001000;
+		//const uint8_t pulse = 0b00001000;
 
 		uint8_t intCtrlReg1 = en;	// Enable & latch (by not writing pulse)
 

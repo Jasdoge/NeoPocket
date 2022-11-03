@@ -267,7 +267,7 @@ namespace Animator{
 		const uint32_t ms = millis();				// Current time
 		const float perc = getPerc(ms);		// Percent through animation
 		const uint8_t numSets = NUM_PIXELS/2;			// 
-		const float pixelDist = 1.0/numSets;
+		//const float pixelDist = 1.0/numSets;
 		
 		// run on each pixel
 		for( uint8_t i=0; i<numSets; ++i ){
@@ -305,7 +305,7 @@ namespace Animator{
 		const uint32_t ms = millis();				// Current time
 		const float perc = getPerc(ms);		// Percent through animation
 		const uint8_t numSets = NUM_PIXELS/2;			// 
-		const float pixelDist = 1.0/numSets;
+		//const float pixelDist = 1.0/numSets;
 
 		uint8_t ri = 5, gi = 5, bi = 5;
 		hsvToRgb(perc*360, saturation, 100, ri, gi, bi);
@@ -325,7 +325,7 @@ namespace Animator{
 		const uint32_t ms = millis();				// Current time
 		const float perc = getPerc(ms);		// Percent through animation
 		const uint8_t numSets = NUM_PIXELS/2;			// 
-		const float pixelDist = 1.0/numSets;
+		//const float pixelDist = 1.0/numSets;
 
 		// run on each pixel
 		for( uint8_t i=0; i<numSets; ++i ){
@@ -354,7 +354,7 @@ namespace Animator{
 		const uint32_t ms = millis();				// Current time
 		const float perc = getPerc(ms);		// Percent through animation
 		const uint8_t numSets = NUM_PIXELS/2;			// 
-		const float pixelDist = 1.0/numSets;
+		//const float pixelDist = 1.0/numSets;
 		
 		// run on each pixel
 		for( uint8_t i=0; i<numSets; ++i ){
@@ -397,9 +397,9 @@ namespace Animator{
 
 
 		const uint32_t ms = millis();				// Current time
-		const float perc = getPerc(ms);		// Percent through animation	
+		//const float perc = getPerc(ms);		// Percent through animation	
 		const uint8_t numSets = NUM_PIXELS/2;
-		const float pixelDist = 1.0/numSets;
+		//const float pixelDist = 1.0/numSets;
 
 		// Trigger a flare
 		if( ms-timer_a > timer_b+timer_c ){
