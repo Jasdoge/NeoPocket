@@ -22,10 +22,9 @@ namespace Configuration{
 	// This is run when the device starts. Configure the default animation here
 	void onSetup(){
 
-		Animator::setColor(1.0,0.5,0.0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
+		Animator::setColor(1.0,0.1,1.0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
 		Animator::setDuration(4000);		// How long each cycle should be. In milliseconds. 4000 = 4 seconds
 		Animator::setMaxBrightness(50);		// How bright it should shine, between 0 and 255 where 255 is max brightness.
-
 
 	}
 
@@ -33,19 +32,19 @@ namespace Configuration{
 	// This is where you trigger your animation
 	void onFrame(){
 
-		// If mode is 3, set ALL pixels to max brightness
-    if( mode == 5 )
-      Animator::setPixels(0,0,0);
-		else if( mode == 4 ){
-			
-			Animator::setPixels(255, 255, 255);
-			return;
+	// Off
+	if( mode == 3 )
+      	Animator::setPixels(0,0,0);
+	// Lantern
+	else if( mode == 2 ){
+		
+		Animator::setPixels(255, 255, 255);
+		return;
 
-		}
-    else if( mode == 2 || mode == 3 )
-      Animator::animFire();
-    else
-      Animator::animRainbowWave();
+	}
+	// Anim mode A
+	else
+		Animator::animKryptonite();
 
 		// Otherwise animate
 		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
@@ -93,14 +92,14 @@ namespace Configuration{
 
 		// Add 1 to mode each time
 		++mode;
-		if( mode > 5 )
+		if( mode > 3 )
 			mode = 0;
 		
-		// In our case, we have 3 brightness modes plus one that's custom
-		if( mode == 0 || mode == 2 )
+		// First one is power saving light, rest are full
+		if( mode == 0 )
 			Animator::setMaxBrightness(50);
 		else 
-		  Animator::setMaxBrightness(255);
+		  	Animator::setMaxBrightness(255);
     
 	}
 
