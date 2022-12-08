@@ -12,7 +12,7 @@
 namespace Configuration{
 
 	// Configuration
-	const uint32_t KEEPALIVE_DURATION = 30000; 	// On duration in milliseconds before starting to fade out.
+	const uint32_t KEEPALIVE_DURATION = 20000; 	// On duration in milliseconds before starting to fade out.
 	const uint32_t FADE_TIME = 30000;			// Time in milliseconds to fade out. Added to KEEPALIVE_DURATION.
 	
 	uint8_t mode = 0;							// Tracks the nr of button clicks
@@ -22,7 +22,7 @@ namespace Configuration{
 	// This is run when the device starts. Configure the default animation here
 	void onSetup(){
 
-		Animator::setColor(1.0,0.25,0.0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
+		Animator::setColor(1.0,0.5,0.0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
 		Animator::setDuration(4000);		// How long each cycle should be. In milliseconds. 4000 = 4 seconds
 		Animator::setMaxBrightness(50);		// How bright it should shine, between 0 and 255 where 255 is max brightness.
 
@@ -34,18 +34,24 @@ namespace Configuration{
 	void onFrame(){
 
 		// If mode is 3, set ALL pixels to max brightness
-		if( mode == 3 ){
+    if( mode == 5 )
+      Animator::setPixels(0,0,0);
+		else if( mode == 4 ){
 			
 			Animator::setPixels(255, 255, 255);
 			return;
 
 		}
+    else if( mode == 2 || mode == 3 )
+      Animator::animFire();
+    else
+      Animator::animRainbowWave();
 
 		// Otherwise animate
 		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
 		//Animator::animWave();
 		//Animator::animRainbowFlat();
-		Animator::animRainbowWave();
+		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
 		//Animator::animFire();
 
@@ -87,17 +93,15 @@ namespace Configuration{
 
 		// Add 1 to mode each time
 		++mode;
-		if( mode > 3 )
+		if( mode > 5 )
 			mode = 0;
 		
 		// In our case, we have 3 brightness modes plus one that's custom
-		if( mode == 0 )
+		if( mode == 0 || mode == 2 )
 			Animator::setMaxBrightness(50);
-		else if( mode == 1 )
-			Animator::setMaxBrightness(128);
-		else
-			Animator::setMaxBrightness(255);
-
+		else 
+		  Animator::setMaxBrightness(255);
+    
 	}
 
 
