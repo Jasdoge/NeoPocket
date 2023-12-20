@@ -21,7 +21,6 @@ const float KEEPALIVE_THRESH = 3.0;			// Threshold to keeping the light alive. L
 #define PIN_BAT_READ_IN 15
 
 #define PIN_EXT_BUTTON 11		// external chassis button
-#define PIN_RESET 16
 #define PIN_BOOT_LED 3
 
 #define PIN_NEO_DTA 14

@@ -3,7 +3,7 @@
 	Todo:
 	- HW update is needed to get the charge value
 	
-	Attiny1626, I think
+	Attiny1626
 
 	- Programmer settings:
 		- 20mhz clock
@@ -12,7 +12,7 @@
 		- Rest default
 
 */
-// #define DEBUG_IGNORE_BATTERY
+#define DEBUG_IGNORE_BATTERY
 
 #include <tinyNeoPixel_Static.h>
 #include <avr/sleep.h>
@@ -74,6 +74,7 @@ void toggle( bool on = false, bool dly = false ){
 	if( on ){
 
 		wake = ms;
+		Configuration::onWakeup();
 
 	}
 	else{
@@ -84,9 +85,9 @@ void toggle( bool on = false, bool dly = false ){
 	}
 
 	//toggleInputPins(on);
-
-	// BIGPP is inverse, turning on at LOW
-	digitalWrite(PIN_BIGPP, on ? HIGH : LOW);
+  Serial.print("Toggle ");
+  Serial.println(on ? "ON" : "OFF");
+	digitalWrite(PIN_BIGPP, on);
 	if( !on )
 		digitalWrite(PIN_NEO_DTA, LOW);
 
@@ -162,9 +163,6 @@ void checkCharging( bool force ){
 
 
 void setup(){
-
-	pinMode(PIN_RESET, INPUT_PULLUP);
-	attachInterrupt(digitalPinToInterrupt(PIN_RESET), reset, CHANGE);
 
 	Accelerometer::onError = &onError;
 

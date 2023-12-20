@@ -3,16 +3,9 @@
 #include "_Configuration.h"
 
 
-void reset(){
-	_PROTECTED_WRITE(RSTCTRL.SWRR,1);
-}
 void setup(){
 
 	Serial.begin(9600);
-
-	pinMode(PIN_RESET, INPUT_PULLUP);
-	attachInterrupt(digitalPinToInterrupt(PIN_RESET), reset, CHANGE);
-
 	pinMode(PIN_BIGPP, OUTPUT);
 	digitalWrite(PIN_BIGPP, HIGH);	// It's actually flipped by an N-FET
 	pinMode(PIN_NEO_DTA, OUTPUT);

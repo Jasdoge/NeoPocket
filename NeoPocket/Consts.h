@@ -12,19 +12,18 @@ const float KEEPALIVE_THRESH = 3.0;			// Threshold to keeping the light alive. L
 
 
 
-#define PIN_BIGPP 10			// Turns on on LOW
-#define PIN_RAND 4
-#define PIN_INTERRUPT 2
+#define PIN_BIGPP PIN_PC0			// Turns on on LOW
+#define PIN_RAND PIN_PB5
+#define PIN_INTERRUPT PIN_PA6
 
-#define PIN_CHRG_DET 0		// HIGH when charger is present, LOW when unplugged
-#define PIN_CHRG_STAT 1		// LOW when charging, HIGH when full
-#define PIN_BAT_READ_IN 15
+#define PIN_CHRG_DET PIN_PA4		// HIGH when charger is present, LOW when unplugged
+#define PIN_CHRG_STAT PIN_PA5		// LOW when charging, HIGH when full
+#define PIN_BAT_READ_IN PIN_PA2
 
-#define PIN_EXT_BUTTON 11		// external chassis button
-#define PIN_RESET 16
-#define PIN_BOOT_LED 3
+#define PIN_EXT_BUTTON PIN_PC1		// external chassis button
+#define PIN_BOOT_LED PIN_PA7
 
-#define PIN_NEO_DTA 14
+#define PIN_NEO_DTA PIN_PA1
 
 
 

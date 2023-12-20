@@ -12,38 +12,53 @@
 namespace Configuration{
 
 	// Configuration
-	const uint32_t KEEPALIVE_DURATION = 20000; 	// On duration in milliseconds before starting to fade out.
-	const uint32_t FADE_TIME = 30000;			// Time in milliseconds to fade out. Added to KEEPALIVE_DURATION.
-	
+	const uint32_t DEFAULT_KEEPALIVE_DURATION = 20e3;
+	uint32_t KEEPALIVE_DURATION = DEFAULT_KEEPALIVE_DURATION; 	// On duration in milliseconds before starting to fade out.
+	const uint32_t FADE_TIME = 30e3;
+
 	uint8_t mode = 0;							// Tracks the nr of button clicks
 	uint8_t brightness = 0;						// Current max brightness of the pixels. Between 0 (off) and 255 (max brightness)
-
+	uint32_t time_woke = 0;
 
 	// This is run when the device starts. Configure the default animation here
 	void onSetup(){
 
-		Animator::setColor(1.0,0.1,1.0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
+		Animator::setColor(1.0,0.2,0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
 		Animator::setDuration(4000);		// How long each cycle should be. In milliseconds. 4000 = 4 seconds
 		Animator::setMaxBrightness(50);		// How bright it should shine, between 0 and 255 where 255 is max brightness.
 
+	}
+
+	// Waking up from sleep mode
+	void onWakeup(){
+		time_woke = millis();
 	}
 
 	// Raised 60 times per second(ish)
 	// This is where you trigger your animation
 	void onFrame(){
 
-	// Off
-	if( mode == 3 )
-      	Animator::setPixels(0,0,0);
-	// Lantern
-	else if( mode == 2 ){
-		
-		Animator::setPixels(255, 255, 255);
-		return;
+		// Off
+		if( mode == 3 ){
+			Animator::setPixels(0,0,0);
+			return;
+		}
+		// Lantern
+		if( mode == 2 ){
+			
+			Animator::setPixels(255, 255, 255);
+			return;
 
-	}
-	// Anim mode A
-	else
+		}
+		
+		// :: Normal programs go here ::
+		// Mode that changes color every so often
+		uint32_t fadeDur = 120e3;
+		float perc = (float)(millis()%fadeDur)/fadeDur;
+		float g = fabs(1.0-perc*2);
+		float b = 1.0-g;
+
+		Animator::setColor(  0, g, b );
 		Animator::animKryptonite();
 
 		// Otherwise animate
@@ -95,11 +110,14 @@ namespace Configuration{
 		if( mode > 3 )
 			mode = 0;
 		
+    	// Lantern mode is on for 30 min by default so you can hang it up
+    	KEEPALIVE_DURATION = mode == 2 ? 1800e3 : DEFAULT_KEEPALIVE_DURATION;
+
 		// First one is power saving light, rest are full
 		if( mode == 0 )
 			Animator::setMaxBrightness(50);
 		else 
-		  	Animator::setMaxBrightness(255);
+		  Animator::setMaxBrightness(255);
     
 	}
 
