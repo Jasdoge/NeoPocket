@@ -53,18 +53,19 @@ namespace Configuration{
 		
 		// :: Normal programs go here ::
 		// Mode that changes color every so often
+		/*
 		uint32_t fadeDur = 120e3;
 		float perc = (float)(millis()%fadeDur)/fadeDur;
 		float g = fabs(1.0-perc*2);
 		float b = 1.0-g;
-
-		Animator::setColor(  0, g, b );
-		Animator::animKryptonite();
+		*/
+		Animator::setColor(  1, 0, 1 );
+		//Animator::animKryptonite();
 
 		// Otherwise animate
 		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
 		//Animator::animWave();
-		//Animator::animRainbowFlat();
+		Animator::animRainbowFlat();
 		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
 		//Animator::animFire();

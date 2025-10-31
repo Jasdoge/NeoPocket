@@ -12,7 +12,7 @@
 		- Rest default
 
 */
-#define DEBUG_IGNORE_BATTERY
+//#define DEBUG_IGNORE_BATTERY
 
 #include <tinyNeoPixel_Static.h>
 #include <avr/sleep.h>
