@@ -309,6 +309,9 @@ namespace Animator{
 
 		uint8_t ri = 5, gi = 5, bi = 5;
 		hsvToRgb(perc*360, saturation, 100, ri, gi, bi);
+		ri *= fadePerc;
+		gi *= fadePerc;
+		bi *= fadePerc;
 		// run on each pixel
 		for( uint8_t i=0; i<numSets; ++i )			
 			setLED(i, ri, gi, bi);

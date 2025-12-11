@@ -1,3 +1,6 @@
+// 10MHz
+// 64ms startup
+
 #include "_Config.h"
 #include <avr/sleep.h>
 #define overrideError

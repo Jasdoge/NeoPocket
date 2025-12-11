@@ -85,8 +85,8 @@ void toggle( bool on = false, bool dly = false ){
 	}
 
 	//toggleInputPins(on);
-  Serial.print("Toggle ");
-  Serial.println(on ? "ON" : "OFF");
+  //Serial.print("Toggle ");
+  //Serial.println(on ? "ON" : "OFF");
 	digitalWrite(PIN_BIGPP, on);
 	if( !on )
 		digitalWrite(PIN_NEO_DTA, LOW);
@@ -102,6 +102,7 @@ void toggle( bool on = false, bool dly = false ){
 
 void sleep(){
 	
+	Serial.flush();
 	attachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT), intHandler, RISING);
 	sleep_cpu();
 

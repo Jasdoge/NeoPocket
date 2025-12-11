@@ -118,7 +118,7 @@ namespace Configuration{
 		if( mode == 0 )
 			Animator::setMaxBrightness(50);
 		else 
-		  Animator::setMaxBrightness(255);
+			Animator::setMaxBrightness(255);
     
 	}
 
