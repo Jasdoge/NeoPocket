@@ -59,16 +59,16 @@ namespace Configuration{
 		float g = fabs(1.0-perc*2);
 		float b = 1.0-g;
 		*/
-		Animator::setColor(  1, 0, 1 );
+		Animator::setColor(  1, 0.1, 0 );
 		//Animator::animKryptonite();
 
 		// Otherwise animate
 		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
 		//Animator::animWave();
-		Animator::animRainbowFlat();
+		//Animator::animRainbowFlat();
 		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
-		//Animator::animFire();
+		Animator::animFire();
 
 	}
 

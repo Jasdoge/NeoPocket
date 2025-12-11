@@ -6,10 +6,12 @@
 	Attiny1626
 
 	- Programmer settings:
-		- 20mhz clock
+		- 10mhz clock
 		- 2.6V BOD
-		- BOD enabled hold wakeup/disabled
+		- BOD enabled/sampled 125hz
 		- Rest default
+		- Startup time: 64
+		- RST on PB4
 
 */
 //#define DEBUG_IGNORE_BATTERY

@@ -339,7 +339,7 @@ namespace Animator{
 			p = (uint16_t)p%360;
 			hsvToRgb(p, saturation, 100, ri, gi, bi);
 
-			setLED(i, ri, gi, bi);
+			setLED(i, ri*fadePerc, gi*fadePerc, bi*fadePerc);
 
 		}
 		
@@ -449,7 +449,7 @@ namespace Animator{
 				dist > 0 && 	// Allow only if the LED isn't before the flash
 				dist <= 1.0 	// Distance is not greater than the tail length
 			)flashAdd = 1.0-dist;	// Add 1 if close, drop off as you get further
-
+			//flashAdd *= 0.1;
 
 
 			/*
@@ -477,12 +477,13 @@ namespace Animator{
 
 			
 
-			uint8_t out = 255*(globalBrightness*sineBrightness+flashAdd*3);
+			uint8_t out = 255*(globalBrightness*sineBrightness);
 
-			g = min(255, out*maxGreen);
-			b = min(255, out*maxBlue);
-			r = min(255, out*maxRed);
 
+
+			g = min(255, (out*maxGreen + flashAdd*3*maxGreen*255)*fadePerc);
+			b = min(255, (out*maxBlue + flashAdd*3*maxBlue*255)*fadePerc);
+			r = min(255, (out*maxRed + flashAdd*3*maxRed*255)*fadePerc);
 
 			setLED(i, r, g, b);
 
