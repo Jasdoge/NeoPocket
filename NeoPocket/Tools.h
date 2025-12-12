@@ -9,6 +9,8 @@ namespace Tools{
 
 		// Take a battery reading and output it.
 		const uint16_t reading = analogRead(PIN_BAT_READ_IN);
+		Serial.print("Battery raw: ");
+		Serial.println(reading);
 		float perc = ((reading+0.5)*2.5/1024.0); // Get actual voltage on pin
     	perc -= 1.7;		// 1.7 is the value at 3.4V, which can be considered bottom
 		perc /= (2.5-1.7);	// Convert to a percentage

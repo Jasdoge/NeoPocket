@@ -59,7 +59,8 @@ namespace Configuration{
 		float g = fabs(1.0-perc*2);
 		float b = 1.0-g;
 		*/
-		Animator::setColor(  1, 0.1, 0 );
+		Animator::setColor(  1, 0.1, 0 ); 
+		//Animator::setColor(  0, 0.1, 1 );
 		//Animator::animKryptonite();
 
 		// Otherwise animate
