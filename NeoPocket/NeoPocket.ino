@@ -15,6 +15,7 @@
 
 */
 //#define DEBUG_IGNORE_BATTERY
+//#define DEBUG_EN
 
 #include <tinyNeoPixel_Static.h>
 #include <avr/sleep.h>
@@ -104,7 +105,9 @@ void toggle( bool on = false, bool dly = false ){
 
 void sleep(){
 	
-	Serial.flush();
+	#ifdef DEBUG_EN
+		Serial.flush();
+	#endif
 	attachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT), intHandler, RISING);
 	sleep_cpu();
 
@@ -122,9 +125,10 @@ void sleep(){
 
 	}
 
-	// We're either charging or woke by a shake. In either case handle the sensor, otherwise it gets borked when you unplug the charger
-	Serial.println("Woke up");
-
+	#ifdef DEBUG_END
+		// We're either charging or woke by a shake. In either case handle the sensor, otherwise it gets borked when you unplug the charger
+		Serial.println("Woke up");
+	#endif
 	// woek up
 	detachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT));
 
@@ -197,9 +201,10 @@ void setup(){
 	/* Initialize RTC: */
 	while( RTC.STATUS > 0 ){
 		                                   /* Wait for all register to be synchronized */
-		delay(100);
+		
 		Animator::setPixels(0,0,(on ? 20 : 1));
 		on = !on;
+		delay(100);
 		
 	}
 
