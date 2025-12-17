@@ -9,6 +9,11 @@
 4. Plug your NeoPocket device into your computer via USB.
 5. Select the port that it connected to in Tools > Port.
 6. Select the board with Tools > Board > MegaTinyCore > Attiny3226/1626/826/426 w/Optiboot
-7. Set clock to 20mhz, BOD Voltage Level to 2.6V, BOD to enabled hold wakeup/disabled, and leave the rest of the settings.
-8. You should now be able to upload! Set your animation in _Configuration.h (more info on this soon).
+7. Enter the following settings:
+   - Clock: 10mhz
+   - BOD Voltage Level: 2.6V
+   - BOD: enabled/sampled 125hz
+   - RST on PB4 (default)
+   - Startup time: 64ms
+9. You should now be able to upload! Set your animation in _Configuration.h
 
