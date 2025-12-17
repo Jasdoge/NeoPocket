@@ -9,7 +9,6 @@
 		- 10mhz clock
 		- 2.6V BOD
 		- BOD enabled/sampled 125hz
-		- Rest default
 		- Startup time: 64
 		- RST on PB4
 
