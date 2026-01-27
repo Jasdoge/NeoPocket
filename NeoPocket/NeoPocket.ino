@@ -108,6 +108,7 @@ void sleep(){
 		Serial.flush();
 	#endif
 	attachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT), intHandler, RISING);
+	attachInterrupt(digitalPinToInterrupt(PIN_EXT_BUTTON), intHandler, RISING);
 	sleep_cpu();
 
 	// Just on to check if we're charging
@@ -130,6 +131,7 @@ void sleep(){
 	#endif
 	// woek up
 	detachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT));
+	detachInterrupt(digitalPinToInterrupt(PIN_EXT_BUTTON));
 
 	toggle(true);	// Woke, turn on
 
@@ -281,13 +283,7 @@ void loop(){
 
 	checkCharging(false);
 	
-	// While charging. Only animate charge, regular functionality is disabled
-	if( charging ){
-		
-		Configuration::onChargeFrame( charging_done );
-		return;
-
-	}
+	
 
 
 	// Not charging, do normal stuff
@@ -303,7 +299,7 @@ void loop(){
 		button_pressed = buttonPressed;
 
 		// Track short press on release
-		if( !button_long_press && !button_pressed )
+		if( !button_long_press && !button_pressed && !charging )
 			Configuration::onButtonPress();
 
 		// Clear long press
@@ -316,6 +312,14 @@ void loop(){
 
 		Configuration::onButtonLongPress();
 		button_long_press = true;
+
+	}
+
+	// While charging. Only animate charge, regular functionality is disabled
+	if( charging ){
+		
+		Configuration::onChargeFrame( charging_done );
+		return;
 
 	}
 

@@ -50,6 +50,7 @@ namespace Configuration{
 			return;
 
 		}
+
 		
 		// :: Normal programs go here ::
 		// Mode that changes color every so often
@@ -59,17 +60,19 @@ namespace Configuration{
 		float g = fabs(1.0-perc*2);
 		float b = 1.0-g;
 		*/
-		Animator::setColor(  1, 0.1, 0 ); 
+		//Animator::setColor(  1, 0.1, 0 );
+		//Animator::setColor(  0, 1, 0 );
+		Animator::setColor(  0.5, 0, 0.5 ); 
 		//Animator::setColor(  0, 0.1, 1 );
 		//Animator::animKryptonite();
 
 		// Otherwise animate
-		//Animator::animKryptonite();			// See the Animator.h documentation for built in animations
+		Animator::animKryptonite();			// See the Animator.h documentation for built in animations
 		//Animator::animWave();
 		//Animator::animRainbowFlat();
 		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
-		Animator::animFire();
+		//Animator::animFire();
 
 	}
 
@@ -82,6 +85,8 @@ namespace Configuration{
 
 		// Calculate nr of steps to show
 		uint8_t steps = NUM_PIXELS/2*perc;
+		if( steps < 1 )
+			steps = 1;
 
 		float r = 1.0, g = 1.0;
 		if( perc < 0.5 )
@@ -112,8 +117,8 @@ namespace Configuration{
 		if( mode > 3 )
 			mode = 0;
 		
-    	// Lantern mode is on for 30 min by default so you can hang it up
-    	KEEPALIVE_DURATION = mode == 2 ? 1800e3 : DEFAULT_KEEPALIVE_DURATION;
+		// Lantern mode is on for 30 min by default so you can hang it up
+		KEEPALIVE_DURATION = mode == 2 ? 1800e3 : DEFAULT_KEEPALIVE_DURATION;
 
 		// First one is power saving light, rest are full
 		if( mode == 0 )
