@@ -47,11 +47,28 @@ void onError( uint8_t err ){
 	
 	delay(1000);
 }
+void disableInterrupts(){
+	
+	PORTC.PIN1CTRL = 0b1000;	// Pullupen, interrupt off
+	PORTA.PIN6CTRL = 0b1000;	// Pullupen, interrupt off
+}
+
 ISR(RTC_PIT_vect){
   	RTC.PITINTFLAGS = RTC_PI_bm;          /* Clear interrupt flag by writing '1' (required) */
+	disableInterrupts();
 	wokeByTimer = true;
+	
 }
-void intHandler(){
+ISR(PORTA_PORT_vect){
+	const uint8_t flags = PORTA.INTFLAGS;
+	PORTA.INTFLAGS = flags;
+	disableInterrupts();
+	wokeByTimer = false;
+}
+ISR(PORTC_PORT_vect){
+	const uint8_t flags = PORTC.INTFLAGS;
+	disableInterrupts();
+	PORTC.INTFLAGS = flags;
 	wokeByTimer = false;
 }
 
@@ -63,6 +80,7 @@ bool charging = false;
 bool charging_done = false;
 uint32_t last_charge_check = 0;	// Limits how often to read the battery
 bool sleepOnLoop = false;		// Used to prevent recursion
+uint32_t last_int_rst = 0;		// Last time we reset the interrupt (prevents lagging)
 
 // Chassis button
 uint32_t button_change_time = 0;	// When was the button first held	
@@ -75,6 +93,7 @@ void toggle( bool on = false, bool dly = false ){
 	const uint32_t ms = millis();
 	if( on ){
 
+		last_int_rst = ms;
 		wake = ms;
 		Configuration::onWakeup();
 
@@ -107,10 +126,13 @@ void sleep(){
 	#ifdef DEBUG_EN
 		Serial.flush();
 	#endif
-	attachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT), intHandler, RISING);
-	attachInterrupt(digitalPinToInterrupt(PIN_EXT_BUTTON), intHandler, RISING);
+
+	Accelerometer::resetInterrupt();
+	PORTC.PIN1CTRL = 0b1101;	// Pullupen, isc5 = trigger low
+	PORTA.PIN6CTRL = 0b1101;	// Pullupen, isc5 = trigger low
 	sleep_cpu();
 
+	
 	// Just on to check if we're charging
 	if( wokeByTimer ){
 		
@@ -129,9 +151,7 @@ void sleep(){
 		// We're either charging or woke by a shake. In either case handle the sensor, otherwise it gets borked when you unplug the charger
 		Serial.println("Woke up");
 	#endif
-	// woek up
-	detachInterrupt(digitalPinToInterrupt(PIN_INTERRUPT));
-	detachInterrupt(digitalPinToInterrupt(PIN_EXT_BUTTON));
+	
 
 	toggle(true);	// Woke, turn on
 
@@ -184,7 +204,6 @@ void setup(){
 	pinMode(PIN_CHRG_STAT, INPUT);
 	pinMode(PIN_BAT_READ_IN, INPUT);	// Analog input, checks wheter it's charging or not
 	pinMode(PIN_BOOT_LED, OUTPUT);
-	pinMode(PIN_EXT_BUTTON, INPUT_PULLUP);
 	pinMode(SDA, INPUT_PULLUP);
 	pinMode(SCL, INPUT_PULLUP);
 	digitalWrite(PIN_BIGPP, HIGH);		// Enables bigpp
@@ -193,6 +212,7 @@ void setup(){
 
 	// Interrupt ALWAYS needs to be an input
 	pinMode(PIN_INTERRUPT, INPUT);
+	pinMode(PIN_EXT_BUTTON, INPUT_PULLUP);
 
 	toggle(true);
 
@@ -226,19 +246,19 @@ void setup(){
   	if( !Accelerometer::begin() ){
 
 		Serial.println("No accelerometer");
-		for( uint8_t i = 0; i<4; ++i ){
-			Animator::setPixels(i%2 ? 5 : 20);
+		bool on = false;
+		while( true ){
+			on = !on;
+			Animator::setPixels(on ? 5 : 0);
 			delay(500);
 		}
-		digitalWrite(PIN_BOOT_LED, HIGH);
-		while(true){}
 
 	}
 
 	Serial.println("Accelerometer found!");
 
 	// sensitivity, duration to trigger, duration to reset
-	if( !Accelerometer::setInterrupt( 40, 10, 255 ) ){
+	if( !Accelerometer::setInterrupt( 40, 10, 255, LOW ) ){
 
 		for( uint8_t i = 0; i<20; ++i ){
 			Animator::setPixels(i%2 ? 5 : 20);
@@ -341,9 +361,19 @@ void loop(){
 	// Refresh timer if interrupt pin is high
 	if( ms-wake < ON_DUR ){
 
-		if( digitalRead(PIN_INTERRUPT) ){
+		if( !digitalRead(PIN_INTERRUPT) ){
+			
 			wake = ms;
+			// Tell it to clear the interrupt max once per second
+			if( ms-last_int_rst > 1000 ){
+
+				last_int_rst = ms;
+				Accelerometer::resetInterrupt();
+
+			}
+
 		}
+
 	}
 	// Timer has expired, shut down
 	else

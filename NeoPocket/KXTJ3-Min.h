@@ -197,10 +197,12 @@ namespace Accelerometer{
 			return false;
 		
 
-		const uint8_t en = 0b00100000;
+		//const uint8_t en = 0b00100000;
 		//const uint8_t pulse = 0b00001000;
 
-		uint8_t intCtrlReg1 = en;	// Enable & latch (by not writing pulse)
+		uint8_t intCtrlReg1 = 0b100000;	// Enable
+		//intCtrlReg1 |= 0b1000;			// Pulsed mode
+
 
 		// Set interrupt pin HIGH on interrupt
 		if( polarity )
@@ -303,6 +305,12 @@ namespace Accelerometer{
 
 	}
 
+	uint8_t resetInterrupt(){
+	
+		// Reading the INT_REL register releases the latch
+		return readRegister(INT_REL);
+
+	}
 
 
 
