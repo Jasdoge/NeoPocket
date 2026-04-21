@@ -72,8 +72,8 @@ namespace Configuration{
 		//Animator::animRainbowFlat();
 		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
-		Animator::animFire();
-
+		//Animator::animFire();
+		Animator::animEqualizer();
 	}
 
 

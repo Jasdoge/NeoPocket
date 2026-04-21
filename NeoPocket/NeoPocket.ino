@@ -13,7 +13,7 @@
 		- RST on PB4
 
 */
-//#define DEBUG_IGNORE_BATTERY
+#define DEBUG_IGNORE_BATTERY
 //#define DEBUG_EN
 
 #include <tinyNeoPixel_Static.h>

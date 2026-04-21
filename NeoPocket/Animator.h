@@ -298,7 +298,7 @@ namespace Animator{
 		
 	}
 
-	
+
 	// saturation : How saturated should the rainbow be? Between 0 and 100. A lower value generates a more bleached rainbow.
 	void animRainbowFlat( uint8_t saturation = 100 ){
 
@@ -394,6 +394,38 @@ namespace Animator{
 		
 	}
 
+
+	void animEqualizer(){
+
+		const uint8_t yellowStart = 5;
+		const uint8_t redStart = 8;
+		const uint32_t ms = millis();
+		const uint32_t delta = ms-timer_a;
+		timer_a = ms;
+		const uint8_t numSets = NUM_PIXELS/2;
+
+
+		timer_b -= delta;
+		if( timer_b > 500 || timer_b < 100 )
+			timer_b = 500;
+
+		float perc = (float)timer_b/500.0;
+		for( uint8_t i = 0; i < numSets; ++i ){
+			
+			float myPerc = (float)i/numSets;
+			const bool isOn = perc >= myPerc; 
+			uint8_t g = (isOn && i <= redStart) * 255;
+			uint8_t b = 0;
+			uint8_t r = (isOn && i > yellowStart) * 255;
+			setLED(i, r, g, b);
+
+		}
+		
+		output();
+
+
+
+	}
 
 	// Animations you can use
 	void animFire(){
