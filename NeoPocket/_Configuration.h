@@ -112,6 +112,10 @@ namespace Configuration{
 	// Raised when a user clicks the button
 	void onButtonPress( bool longPress = false ){
 
+		Animator::timer_a = 0;
+		Animator::timer_b = 0;
+		Animator::timer_c = 0;
+
 		// Add 1 to mode each time
 		++mode;
 		if( mode > 3 )

@@ -13,7 +13,7 @@ namespace Animator{
 	// Timers that can be used by the animation
 	uint32_t timer_a;
 	uint16_t timer_b;
-	uint16_t timer_c;
+	uint32_t timer_c;
 
 	// Used by sparkling animations
 	uint32_t sparkle_started[NUM_PIXELS] = {0};
@@ -397,27 +397,50 @@ namespace Animator{
 
 	void animEqualizer(){
 
+		const uint16_t FADE_SPEED = 400;
 		const uint8_t yellowStart = 5;
 		const uint8_t redStart = 8;
 		const uint32_t ms = millis();
 		const uint32_t delta = ms-timer_a;
 		timer_a = ms;
+
+		float breath = sin(ms/4000.0*PI*2)*0.5+0.5;
+		breath = breath * 0.75 + 0.25;
+
 		const uint8_t numSets = NUM_PIXELS/2;
 
+		const uint32_t up = ms-timer_c;
+		if( up > 100 )
+			timer_b -= delta;
 
-		timer_b -= delta;
-		if( timer_b > 500 || timer_b < 100 )
-			timer_b = 500;
+		if( up > FADE_SPEED*0.5 ){
+			
+			float rand = (quickRand(0, FADE_SPEED*0.5) + FADE_SPEED*0.5) / (float)FADE_SPEED;
+			rand *= FADE_SPEED;
+			if( timer_b < FADE_SPEED/4 && rand > timer_b + FADE_SPEED/4 ){
 
-		float perc = (float)timer_b/500.0;
+				timer_b = rand;
+				timer_c = ms;
+
+			}
+
+		}
+
+		if( timer_b > FADE_SPEED )
+			timer_b = 0;
+		if( timer_b < FADE_SPEED/4 )
+			timer_b = FADE_SPEED/4;
+
+		float perc = (float)timer_b/FADE_SPEED;
 		for( uint8_t i = 0; i < numSets; ++i ){
 			
-			float myPerc = (float)i/numSets;
+			uint8_t localI = numSets-i-1;
+			float myPerc = (float)localI/numSets;
 			const bool isOn = perc >= myPerc; 
-			uint8_t g = (isOn && i <= redStart) * 255;
+			uint8_t g = (isOn && localI < redStart) * 255;
 			uint8_t b = 0;
-			uint8_t r = (isOn && i > yellowStart) * 255;
-			setLED(i, r, g, b);
+			uint8_t r = (isOn && localI >= yellowStart) * 255;
+			setLED(i, r*breath*fadePerc, g*breath*fadePerc, b*breath*fadePerc);
 
 		}
 		
