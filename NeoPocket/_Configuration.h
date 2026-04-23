@@ -23,8 +23,7 @@ namespace Configuration{
 	// This is run when the device starts. Configure the default animation here
 	void onSetup(){
 
-		Animator::setColor(1.0,0.2,0);	// Set what color you want to use. 1.0 = max, and 0.0 is off. Red/green/blue.
-		Animator::setDuration(4000);		// How long each cycle should be. In milliseconds. 4000 = 4 seconds
+		Animator::setDuration(1000);		// How long each cycle should be. In milliseconds. 4000 = 4 seconds
 		Animator::setMaxBrightness(50);		// How bright it should shine, between 0 and 255 where 255 is max brightness.
 
 	}
@@ -60,7 +59,7 @@ namespace Configuration{
 		float g = fabs(1.0-perc*2);
 		float b = 1.0-g;
 		*/
-		Animator::setColor(  1, 0.1, 0 );
+		Animator::setColor(  1, 0.0, 0 );
 		//Animator::setColor(  0, 1, 0 );
 		//Animator::setColor(  0.5, 0, 0.5 ); 
 		//Animator::setColor(  0, 0.1, 1 );
@@ -73,7 +72,8 @@ namespace Configuration{
 		//Animator::animRainbowWave();
 		//Animator::animWaveSparkle();
 		//Animator::animFire();
-		Animator::animEqualizer();
+		//Animator::animEqualizer();
+		Animator::animHoff();
 	}
 
 

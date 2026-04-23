@@ -536,9 +536,9 @@ namespace Animator{
 
 
 
-			g = min(255, (out*maxGreen + flashAdd*3*maxGreen*255)*fadePerc);
-			b = min(255, (out*maxBlue + flashAdd*3*maxBlue*255)*fadePerc);
-			r = min(255, (out*maxRed + flashAdd*3*maxRed*255)*fadePerc);
+			g = min(255, (out*maxGreen + flashAdd*3*maxGreen*maxBrightness)*fadePerc);
+			b = min(255, (out*maxBlue + flashAdd*3*maxBlue*maxBrightness)*fadePerc);
+			r = min(255, (out*maxRed + flashAdd*3*maxRed*maxBrightness)*fadePerc);
 
 			setLED(i, r, g, b);
 
@@ -548,6 +548,56 @@ namespace Animator{
 
 	}
 
+
+	void animHoff(){
+
+		const uint32_t ms = millis();				// Current time
+		const float perc = getPerc(ms)*2;		// Percent through animation
+		const uint8_t numSets = NUM_PIXELS/2;			// 
+		const float pixelLength = 1.0/numSets;
+		const float tailLength = pixelLength * (numSets*0.75);
+
+		for( uint8_t i = 0; i < numSets; ++i ){
+
+			float offs = perc;
+			if( offs > 1.5 )
+				offs -= 2.0;
+
+			float intensity = 0.0;
+
+			float myOffset = (float)i/numSets;
+			float dist = (float)(offs-myOffset);
+			if( dist > 0 && dist <= tailLength )
+				intensity += (1.0-dist/tailLength)*0.75;
+			else if( fabs(dist) < pixelLength )
+				intensity += (1.0 - fabs(dist)/pixelLength)*0.75;
+
+			// Reverse the pixel offset so the tail moves in the opposite direction.
+			offs = perc+1.0;
+			if( offs > 1.5 )
+				offs -= 2.0;
+			myOffset = (float)(numSets - i - 1)/numSets;
+			dist = (float)(offs-myOffset);
+			
+
+			if( dist > 0 && dist <= tailLength )
+				intensity += (1.0-dist/tailLength)*0.75;
+			else if( fabs(dist) < pixelLength )
+				intensity += (1.0 - fabs(dist)/pixelLength)*0.75;
+
+			if( intensity > 1.0 )
+				intensity = 1.0;
+
+			intensity = intensity * intensity * fadePerc * maxBrightness;
+
+			setLED( i, intensity*maxRed, intensity*maxGreen, intensity*maxBlue );
+
+		}
+
+		
+		output();
+
+	}
 
 
 	
