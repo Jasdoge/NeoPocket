@@ -410,14 +410,14 @@ namespace Animator{
 		const uint8_t numSets = NUM_PIXELS/2;
 
 		const uint32_t up = ms-timer_c;
-		if( up > 100 )
+		if( up > 75 )
 			timer_b -= delta;
 
 		if( up > FADE_SPEED*0.5 ){
 			
 			float rand = (quickRand(0, FADE_SPEED*0.5) + FADE_SPEED*0.5) / (float)FADE_SPEED;
 			rand *= FADE_SPEED;
-			if( timer_b < FADE_SPEED/4 && rand > timer_b + FADE_SPEED/4 ){
+			if( timer_b < FADE_SPEED/4 && rand > timer_b + FADE_SPEED/5 ){
 
 				timer_b = rand;
 				timer_c = ms;
